@@ -9,23 +9,22 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
-
     public UserDaoJDBCImpl() {
     }
 
     public void createUsersTable() {
         String createUsersTableSql = "CREATE TABLE IF NOT EXISTS users"
                 + "(id bigserial NOT NULL PRIMARY KEY, name varchar(30) NOT NULL,"
-                + "lastname varchar(30) NOT NULL, smallint age)";
+                + "lastname varchar(30) NOT NULL, age smallint);";
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
 
             statement.execute(createUsersTableSql);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
-
 
     public void dropUsersTable() {
         String dropUsersTableSql = "DROP TABLE IF EXISTS users";
