@@ -21,7 +21,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
             statement.execute(createUsersTableSql);
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -33,33 +32,35 @@ public class UserDaoJDBCImpl implements UserDao {
 
             statement.execute(dropUsersTableSql);
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
     public void saveUser(String name, String lastName, byte age) {
         String saveUserSql = "INSERT INTO users (name, lastname, age) VALUES (?, ?, ?)";
         try (Connection connection = Util.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(saveUserSql)) {
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement(saveUserSql)) {
 
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
             preparedStatement.executeUpdate();
+
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
     public void removeUserById(long id) {
-        String deleteUserByIdSql = "DELETE FROM users";
+        String deleteUserByIdSql = "DELETE FROM users WHERE id = ?";
         try (Connection connection = Util.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(deleteUserByIdSql)) {
 
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -71,10 +72,11 @@ public class UserDaoJDBCImpl implements UserDao {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                Long id = resultSet.getLong("id");
                 String name = resultSet.getString("name");
                 String lastName = resultSet.getString("lastName");
                 byte age = resultSet.getByte("age");
-                users.add(new User(name, lastName, age));
+                users.add(new User(id, name, lastName, age));
             }
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
