@@ -1,36 +1,36 @@
 package org.example.service;
 
 import org.example.dao.UserDao;
-import org.example.dao.UserDaoJDBCImpl;
+import org.example.dao.UserDaoHibernateImpl;
 import org.example.model.User;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao = new UserDaoJDBCImpl();
+    private final UserDao userHibernateDao = new UserDaoHibernateImpl();
 
     public void createUsersTable() {
-        userDao.createUsersTable();
+        userHibernateDao.createUsersTable();
     }
 
     public void dropUsersTable() {
-        userDao.dropUsersTable();
+        userHibernateDao.dropUsersTable();
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        userDao.saveUser(name, lastName, age);
+        userHibernateDao.saveUser(name, lastName, age);
     }
 
     public void removeUserById(long id) {
-        userDao.removeUserById(id);
+        userHibernateDao.removeUserById(id);
     }
 
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        return userHibernateDao.getAllUsers();
     }
 
     public void cleanUsersTable() {
-        userDao.cleanUsersTable();
+        userHibernateDao.cleanUsersTable();
     }
 }
