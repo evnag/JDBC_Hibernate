@@ -1,45 +1,47 @@
 package org.example;
 
-import org.example.dao.UserDao;
-import org.example.dao.UserDaoHibernateImpl;
-import org.example.dao.UserDaoJDBCImpl;
+import org.example.config.AppConfig;
 import org.example.model.User;
+import org.example.service.UserServiceImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
     public static void main(String[] args) {
 
-        UserDao userJDBCDao = new UserDaoJDBCImpl();
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
 
-        userJDBCDao.dropUsersTable();
-        userJDBCDao.createUsersTable();
-        userJDBCDao.saveUser("Vasiliy", "Vasiliev", (byte) 20);
-        userJDBCDao.saveUser("Petr", "Petrov", (byte) 30);
-        userJDBCDao.saveUser("Ivan", "Ivanov", (byte) 40);
-        userJDBCDao.saveUser("Sergey", "Sergeev", (byte) 50);
+        UserServiceImpl userServiceJDBC = applicationContext.getBean("userServiceJDBC", UserServiceImpl.class);
+        UserServiceImpl userServiceHibernate = applicationContext.getBean("userServiceHibernate", UserServiceImpl.class);
 
-        userJDBCDao.removeUserById(4L);
+        userServiceJDBC.dropUsersTable();
+        userServiceJDBC.createUsersTable();
+        userServiceJDBC.saveUser("Vasiliy", "Vasiliev", (byte) 20);
+        userServiceJDBC.saveUser("Petr", "Petrov", (byte) 30);
+        userServiceJDBC.saveUser("Ivan", "Ivanov", (byte) 40);
+        userServiceJDBC.saveUser("Sergey", "Sergeev", (byte) 50);
 
-        for (User user : userJDBCDao.getAllUsers()) {
+        userServiceJDBC.removeUserById(4L);
+
+        for (User user : userServiceJDBC.getAllUsers()) {
             System.out.println(user.toString());
         }
 
-        userJDBCDao.cleanUsersTable();
+        userServiceJDBC.cleanUsersTable();
 
-        UserDao userHibernateDao = new UserDaoHibernateImpl();
+        userServiceHibernate.dropUsersTable();
+        userServiceHibernate.createUsersTable();
+        userServiceHibernate.saveUser("Vasiliy", "Vasiliev", (byte) 20);
+        userServiceHibernate.saveUser("Petr", "Petrov", (byte) 30);
+        userServiceHibernate.saveUser("Ivan", "Ivanov", (byte) 40);
+        userServiceHibernate.saveUser("Sergey", "Sergeev", (byte) 50);
 
-        userHibernateDao.dropUsersTable();
-        userHibernateDao.createUsersTable();
-        userHibernateDao.saveUser("Vasiliy", "Vasiliev", (byte) 20);
-        userHibernateDao.saveUser("Petr", "Petrov", (byte) 30);
-        userHibernateDao.saveUser("Ivan", "Ivanov", (byte) 40);
-        userHibernateDao.saveUser("Sergey", "Sergeev", (byte) 50);
+        userServiceHibernate.removeUserById(4);
 
-        userHibernateDao.removeUserById(4);
-
-        for (User user : userHibernateDao.getAllUsers()) {
+        for (User user : userServiceHibernate.getAllUsers()) {
             System.out.println(user.toString());
         }
 
-        userHibernateDao.cleanUsersTable();
+        userServiceHibernate.cleanUsersTable();
     }
 }

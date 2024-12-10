@@ -1,3 +1,6 @@
+import org.example.dao.UserDao;
+import org.example.dao.UserDaoHibernateImpl;
+import org.example.dao.UserDaoJDBCImpl;
 import org.example.model.User;
 import org.example.service.UserService;
 import org.example.service.UserServiceImpl;
@@ -7,7 +10,9 @@ import org.junit.Test;
 import java.util.List;
 
 public class UserServiceTest {
-    private final UserService userService = new UserServiceImpl();
+//    private final UserDao userDao = new UserDaoJDBCImpl();
+    private final UserDao userDao = new UserDaoHibernateImpl();
+    private final UserService userService = new UserServiceImpl(userDao);
 
     private final String testName = "Ivan";
     private final String testLastName = "Ivanov";
