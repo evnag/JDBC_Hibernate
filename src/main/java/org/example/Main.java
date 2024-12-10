@@ -11,8 +11,7 @@ public class Main {
 
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
 
-        UserServiceImpl userServiceJDBC = applicationContext.getBean("userServiceJDBC", UserServiceImpl.class);
-        UserServiceImpl userServiceHibernate = applicationContext.getBean("userServiceHibernate", UserServiceImpl.class);
+        UserServiceImpl userServiceJDBC = applicationContext.getBean(UserServiceImpl.class);
 
         userServiceJDBC.dropUsersTable();
         userServiceJDBC.createUsersTable();
@@ -28,6 +27,8 @@ public class Main {
         }
 
         userServiceJDBC.cleanUsersTable();
+
+        UserServiceImpl userServiceHibernate = applicationContext.getBean(UserServiceImpl.class);
 
         userServiceHibernate.dropUsersTable();
         userServiceHibernate.createUsersTable();
