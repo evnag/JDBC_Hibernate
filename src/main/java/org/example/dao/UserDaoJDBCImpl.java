@@ -2,11 +2,13 @@ package org.example.dao;
 
 import org.example.model.User;
 import org.example.util.Util;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository("userDaoJDBCImpl")
 public class UserDaoJDBCImpl implements UserDao {
 
     public UserDaoJDBCImpl() {

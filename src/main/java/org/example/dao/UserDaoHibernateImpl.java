@@ -4,9 +4,11 @@ import org.example.model.User;
 import org.example.util.Util;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("userDaoHibernateImpl")
 public class UserDaoHibernateImpl implements UserDao {
     public UserDaoHibernateImpl() {
     }

@@ -1,36 +1,45 @@
 package org.example.service;
 
 import org.example.dao.UserDao;
-import org.example.dao.UserDaoHibernateImpl;
 import org.example.model.User;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userHibernateDao = new UserDaoHibernateImpl();
+    private final UserDao userDaoJDBCImpl;
+    private final UserDao userDaoHibernateImpl;
+
+    public UserServiceImpl(@Qualifier("userDaoJDBCImpl") UserDao userDaoJDBCImpl,
+                           @Qualifier("userDaoHibernateImpl") UserDao userDaoHibernateImpl) {
+        this.userDaoJDBCImpl = userDaoJDBCImpl;
+        this.userDaoHibernateImpl = userDaoHibernateImpl;
+    }
 
     public void createUsersTable() {
-        userHibernateDao.createUsersTable();
+        userDaoJDBCImpl.createUsersTable();
     }
 
     public void dropUsersTable() {
-        userHibernateDao.dropUsersTable();
+        userDaoJDBCImpl.dropUsersTable();
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        userHibernateDao.saveUser(name, lastName, age);
+        userDaoJDBCImpl.saveUser(name, lastName, age);
     }
 
     public void removeUserById(long id) {
-        userHibernateDao.removeUserById(id);
+        userDaoJDBCImpl.removeUserById(id);
     }
 
     public List<User> getAllUsers() {
-        return userHibernateDao.getAllUsers();
+        return userDaoJDBCImpl.getAllUsers();
     }
 
     public void cleanUsersTable() {
-        userHibernateDao.cleanUsersTable();
+        userDaoJDBCImpl.cleanUsersTable();
     }
 }
